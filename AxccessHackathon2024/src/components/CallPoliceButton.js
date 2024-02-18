@@ -13,7 +13,7 @@ const CallPoliceButton = () => {
     return (
         <SafeAreaView style={styles.wrapper}>
             <Pressable style={styles.callButton} onPress={clickPoliceButton}>
-                <Text style={styles.innerText}>Call 911</Text>
+                <Text style={styles.innerText}>CALL 911</Text>
             </Pressable>
         </SafeAreaView>
     )
@@ -35,6 +35,8 @@ const styles = StyleSheet.create({
     },
     innerText: {
         color:'#fff',
+        fontWeight: "bold",
+        fontSize: 60,
     }
 })
 

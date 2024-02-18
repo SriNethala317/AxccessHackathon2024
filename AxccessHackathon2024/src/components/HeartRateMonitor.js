@@ -1,40 +1,48 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
 import { Camera } from 'expo-camera';
+import { Ionicons } from '@expo/vector-icons';
 
 const HeartRateMonitor = () => {
-  const [cameraPermission, setCameraPermission] = useState(null);
-  const [cameraType, setCameraType] = useState(Camera.Constants.Type.back);
   const [heartRate, setHeartRate] = useState(0);
-  const [pulseSignal, setPulseSignal] = useState([]);
   const [isMonitoring, setIsMonitoring] = useState(false);
+  const [cameraType, setCameraType] = useState(Camera.Constants.Type.back);
+  const cameraRef = useRef(null);
+
+  const generateRandomHeartRate = (previousHeartRate) => {
+    // Calculate the next heart rate based on the previous heart rate
+    // Add a random deviation to the previous heart rate to make it erratic
+    const minDeviation = -5;
+    const maxDeviation = 5;
+    const deviation = Math.floor(Math.random() * (maxDeviation - minDeviation + 1)) + minDeviation;
+    const nextHeartRate = previousHeartRate + deviation;
+
+    // Ensure the heart rate stays within the range of 60 to 100 BPM
+    return Math.min(Math.max(nextHeartRate, 60), 100);
+  };
 
   useEffect(() => {
-    (async () => {
-      const { status } = await Camera.requestPermissionsAsync();
-      setCameraPermission(status === 'granted');
-    })();
-  }, []);
-
-  const handleCameraTypeToggle = () => {
-    setCameraType(
-      cameraType === Camera.Constants.Type.back
-        ? Camera.Constants.Type.front
-        : Camera.Constants.Type.back
-    );
-  };
-
-  const handleCameraStream = (data) => {
+    let intervalId;
+    // Start monitoring when isMonitoring is true
     if (isMonitoring) {
-      // Process camera data to extract pulse signal
-      const newPulseSignal = extractPulseSignal(data);
-      setPulseSignal(newPulseSignal);
+      // Interval to update heart rate every 2 seconds (for demonstration)
+      intervalId = setInterval(() => {
+        setHeartRate(previousHeartRate => generateRandomHeartRate(previousHeartRate));
+      }, 2000);
 
-      // Calculate heart rate from pulse signal
-      const heartRate = calculateHeartRate(newPulseSignal);
-      setHeartRate(heartRate);
+      // Stop monitoring after 30 seconds
+      setTimeout(() => {
+        stopMonitoring();
+      }, 30000);
+    } else {
+      // Clear interval when monitoring is stopped
+      clearInterval(intervalId);
+      setHeartRate(0); // Reset heart rate
     }
-  };
+
+    // Clean up function to clear interval on component unmount
+    return () => clearInterval(intervalId);
+  }, [isMonitoring]);
 
   const startMonitoring = () => {
     setIsMonitoring(true);
@@ -42,25 +50,18 @@ const HeartRateMonitor = () => {
 
   const stopMonitoring = () => {
     setIsMonitoring(false);
-    setHeartRate(0);
-    setPulseSignal([]);
   };
 
-  const extractPulseSignal = (data) => {
-    // Placeholder for extracting pulse signal
-    // This function should perform image processing techniques to extract the pulse signal from camera data
-    // For simplicity, we'll just return a placeholder array
-    const signal = [];
-    for (let i = 0; i < 100; i++) {
-      signal.push(Math.random()); // Placeholder for pulse signal values
-    }
-    return signal;
+  const handleCameraStream = (data) => {
+    // Process camera data here if needed
   };
 
-  const calculateHeartRate = (pulseSignal) => {
-    // Placeholder for calculating heart rate from pulse signal
-    // For simplicity, we'll just return a random heart rate between 60 and 100
-    return Math.floor(Math.random() * (100 - 60 + 1)) + 60;
+  const toggleCameraType = () => {
+    setCameraType(
+      cameraType === Camera.Constants.Type.back
+        ? Camera.Constants.Type.front
+        : Camera.Constants.Type.back
+    );
   };
 
   return (
@@ -68,20 +69,24 @@ const HeartRateMonitor = () => {
       <Camera
         style={styles.camera}
         type={cameraType}
+        ref={cameraRef}
         onBarCodeScanned={handleCameraStream}
       />
-      <View style={styles.overlay}>
+      <View style={styles.statsContainer}>
         <Text style={styles.heartRateText}>{heartRate} BPM</Text>
         <TouchableOpacity
-          style={styles.button}
-          onPress={isMonitoring ? stopMonitoring : startMonitoring}
+          style={styles.toggleButton}
+          onPress={toggleCameraType}
         >
-          <Text style={styles.buttonText}>{isMonitoring ? 'Stop' : 'Start'} Monitoring</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.toggleButton} onPress={handleCameraTypeToggle}>
-          <Text style={styles.toggleText}>Toggle Camera</Text>
+          <Ionicons name="camera-reverse" size={24} color="white" />
         </TouchableOpacity>
       </View>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={isMonitoring ? stopMonitoring : startMonitoring}
+      >
+        <Text style={styles.buttonText}>{isMonitoring ? 'Stop' : 'Start'} Monitoring</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -89,44 +94,41 @@ const HeartRateMonitor = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'black',
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: 'black',
   },
   camera: {
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height,
-  },
-  overlay: {
     position: 'absolute',
-    bottom: 20,
-    left: 0,
-    right: 0,
+  },
+  statsContainer: {
+    position: 'absolute',
+    top: 20,
+    left: 20,
+    flexDirection: 'row',
     alignItems: 'center',
   },
   heartRateText: {
     fontSize: 40,
     color: 'white',
-    marginBottom: 20,
+    marginLeft: 10,
   },
   button: {
-    padding: 10,
+    position: 'absolute',
+    bottom: 20,
     backgroundColor: 'rgba(255, 255, 255, 0.5)',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
     borderRadius: 5,
-    marginBottom: 20,
   },
   buttonText: {
     fontSize: 18,
     fontWeight: 'bold',
   },
   toggleButton: {
-    padding: 10,
-    backgroundColor: 'rgba(255, 255, 255, 0.5)',
-    borderRadius: 5,
-  },
-  toggleText: {
-    fontSize: 18,
-    fontWeight: 'bold',
+    marginLeft: 10,
   },
 });
 
