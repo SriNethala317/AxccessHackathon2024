@@ -1,9 +1,9 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
-import BottomNavBar from './src/components/BottomNavBar';
-import CallPoliceButton from './src/components/CallPoliceButton';
 import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
+// Define your screen components
 function Screen1() {
   return (
     <View style={styles.wrapper}>
@@ -28,6 +28,11 @@ function Screen3() {
   );
 }
 
+// Create a bottom tab navigator
+const Tab = createBottomTabNavigator();
+
+// Main App component
+export default function App() {
   return (
     <NavigationContainer>
       <Tab.Navigator>
@@ -37,7 +42,7 @@ function Screen3() {
       </Tab.Navigator>
     </NavigationContainer>
   );
-
+}
 
 const styles = StyleSheet.create({
   wrapper: {
