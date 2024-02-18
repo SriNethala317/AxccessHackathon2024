@@ -8,11 +8,18 @@ const BottomNavBar = () => {
   return (
     <SafeAreaView style={styles.wrapper}>
       <View style={styles.navContainer}>
-        <Entypo name="star" size={40} color="#C9184A" />
-        <MaterialCommunityIcons name="chart-line-stacked" size={40} color="#5A1327" />
-        <Fontisto name="smiley" size={40} color="#5A1327" />
-
-        
+        <View style={styles.tabGroup}>
+          <Entypo name="star" size={40} color="#C9184A" />
+          <Text>Quick View</Text>
+        </View>
+        <View style={styles.tabGroup}>
+          <MaterialCommunityIcons name="chart-line-stacked" size={40} color="#5A1327" />  
+          <Text>Chart View</Text>
+        </View>
+        <View style={styles.tabGroup}>
+          <Fontisto name="smiley" size={40} color="#5A1327" />
+          <Text>Help</Text>  
+        </View>
       </View>
 
     </SafeAreaView>
@@ -33,6 +40,9 @@ const styles = StyleSheet.create({
     borderRadius: 40,
     marginHorizontal: 10,
     marginBottom: 10,
+  },
+  tabGroup: {
+    
   }
 });
 
