@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import MapComponent from './src/components/mapComponent';
+import MapGoogleComponent from './src/components/MapGoogleComponent';
 import { Ionicons } from '@expo/vector-icons';
 import BottomNavBar from './src/components/BottomNavBar';
 import CallPoliceButton from './src/components/CallPoliceButton';
@@ -12,8 +12,7 @@ import CallPoliceButton from './src/components/CallPoliceButton';
 function Identify() {
   return (
     <View style={styles.navContainer}>
-      <CallPoliceButton />
-      
+      <MapGoogleComponent />
     </View>
   );
 }
@@ -30,6 +29,7 @@ function Pharmacy() {
   return (
     <View style={styles.navContainer}>
       <Text>Pharmacy</Text>
+      <MapGoogleComponent />
     </View>
   );
 }
