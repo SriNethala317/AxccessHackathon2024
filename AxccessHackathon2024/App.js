@@ -1,24 +1,11 @@
-<<<<<<< Updated upstream
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
 import BottomNavBar from './src/components/BottomNavBar';
 import CallPoliceButton from './src/components/CallPoliceButton';
-=======
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { View, Text, StyleSheet } from 'react-native';
->>>>>>> Stashed changes
 
 function Screen1() {
   return (
-<<<<<<< Updated upstream
-    <SafeAreaView style={styles.wrapper}>
-      <CallPoliceButton />
-      <BottomNavBar />
-    </SafeAreaView>
-    
-=======
     <View style={styles.wrapper}>
       <Text>Screen 1</Text>
     </View>
@@ -41,9 +28,6 @@ function Screen3() {
   );
 }
 
-const Tab = createBottomTabNavigator();
-
-export default function App() {
   return (
     <NavigationContainer>
       <Tab.Navigator>
@@ -52,9 +36,8 @@ export default function App() {
         <Tab.Screen name="Screen3" component={Screen3} />
       </Tab.Navigator>
     </NavigationContainer>
->>>>>>> Stashed changes
   );
-}
+
 
 const styles = StyleSheet.create({
   wrapper: {
