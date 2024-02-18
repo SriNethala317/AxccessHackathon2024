@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import MapComponent from './src/components/mapComponent';
 import { Ionicons } from '@expo/vector-icons';
 import BottomNavBar from './src/components/BottomNavBar';
 import CallPoliceButton from './src/components/CallPoliceButton';
@@ -39,6 +40,7 @@ const Tab = createBottomTabNavigator();
 // Main App component
 export default function App() {
   return (
+    
     <NavigationContainer>
       <Tab.Navigator screenOptions={{ 
         headerShown: false
