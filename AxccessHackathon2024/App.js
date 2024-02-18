@@ -80,6 +80,17 @@ export default function App() {
             ),
           }}
         />
+        <Tab.Screen
+          name="Pharmacy"
+          component={MapGoogleComponent}
+          options={{
+            headerShown: false,
+            tabBarLabel: 'Pharmacy',
+            tabBarIcon: ({ color, size }) => (
+              <Ionicons name="navigate-circle" size={size} color={color} />
+            )
+          }}
+        />
       </Tab.Navigator>
     </NavigationContainer>
   );
