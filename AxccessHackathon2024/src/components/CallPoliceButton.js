@@ -1,15 +1,19 @@
 import React from "react";
-import { SafeAreaView, Pressable, Text, StyleSheet } from "react-native";
+import { SafeAreaView, Pressable, Text, StyleSheet, TouchableOpacity, Linking } from "react-native";
 
 const clickPoliceButton = () => {
-    console.log('Pressed');
+        // The phone number you want to dial
+        const phoneNumber = '8482035522'; // Replace with the desired phone number
+
+        // Use Linking to open the phone's dialer
+        Linking.openURL(`tel:${phoneNumber}`);
 }
 
 const CallPoliceButton = () => {
     return (
         <SafeAreaView style={styles.wrapper}>
             <Pressable style={styles.callButton} onPress={clickPoliceButton}>
-                <Text>Call 911</Text>
+                <Text style={styles.innerText}>Call 911</Text>
             </Pressable>
         </SafeAreaView>
     )
@@ -18,17 +22,20 @@ const CallPoliceButton = () => {
 const styles = StyleSheet.create({
     wrapper: {
         flex: 1,
-        justifyContent: 'flex-end',
+        justifyContent: "center"
     },
     callButton: {
         backgroundColor: '#590D22',
         alignItems: 'center',
-        paddingTop: 60,
-        paddingBottom: 60,
         borderRadius: 70,
-        marginHorizontal: 30
-
+        width: 300,
+        height: 200,
+        justifyContent: 'center',
+        textAlign: 'center',
     },
+    innerText: {
+        color:'#fff',
+    }
 })
 
 export default CallPoliceButton;
