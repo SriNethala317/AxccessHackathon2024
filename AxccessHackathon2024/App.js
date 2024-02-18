@@ -13,7 +13,6 @@ function Identify() {
   return (
     <View style={styles.navContainer}>
       <CallPoliceButton />
-      
     </View>
   );
 }
