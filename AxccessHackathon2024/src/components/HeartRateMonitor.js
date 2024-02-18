@@ -6,7 +6,7 @@ const HeartRateMonitor = () => {
   const [cameraPermission, setCameraPermission] = useState(null);
   const [cameraType, setCameraType] = useState(Camera.Constants.Type.back);
   const [heartRate, setHeartRate] = useState(0);
-  const [pulseSignal, setPulseSignal] = useState([]);   
+  const [pulseSignal, setPulseSignal] = useState([]);
   const [isMonitoring, setIsMonitoring] = useState(false);
 
   useEffect(() => {
